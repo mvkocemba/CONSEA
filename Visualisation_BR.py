@@ -15,7 +15,6 @@ Created on Mon Feb 27 13:17:18 2023
 """
 
 import geopandas as gpd
-import pandas as pd
 import numpy as np
 import rasterio 
 import os
@@ -23,21 +22,14 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 from matplotlib import colors
-import rasterio
 from rasterio.plot import show
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
-
-# set directories
-os.chdir('/home/michele/programming/python/data/CDAdistricts')
-inputdir = '/home/michele/programming/python/data/CDAdistricts'
-
-from rasterio.plot import show, show_hist
-from matplotlib import cm
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import matplotlib.patches as mpatches
-from matplotlib.patches import Rectangle
 import matplotlib.lines as mlines
 
+# set directories
+os.chdir('X')
+inputdir = 'X'
 
 ### load in vector data ###
 # load BR data
@@ -61,14 +53,17 @@ core = "core.shp"
 core = gpd.read_file(core)
 
 # load national park
-np = "IUCNNationalparkboundary.shp"
-np = gpd.read_file(np)
+natp = "IUCNNationalparkboundary.shp"
+natp = gpd.read_file(natp)
 
 ### load other raster data ###
 # load hillshade
 hillshade = inputdir + "/hillshade.tif"
 hillshade = rasterio.open(hillshade)
 
+# hillshade large
+hillshade2 = inputdir + "/anahillshade.tif"
+hillshade2 = rasterio.open(hillshade2)
 
 # creation of a custom colormap
 levels = [0,1,2,3]
@@ -79,14 +74,6 @@ levels = [0,1,2,3]
 clrs = ['#eed5b7', 'yellowgreen', '#CD5555', 'darkolivegreen']
 
 cmap, norm = colors.from_levels_and_colors(levels, clrs, extend='max')
-
-os.chdir('/home/michele/programming/python/data/cd_br')
-inputdir = '/home/michele/programming/python/data/cd_br/'
-
-
-# hillshade large
-hillshade2 = inputdir + "/anahillshade.tif"
-hillshade2 = rasterio.open(hillshade2)
 
 yearlist = ["1973-1987", "1987-1995", "1995-2003", "2003-2014", "2014-2021", "1973-2021"]
 ans = []
@@ -113,7 +100,7 @@ def brvis(year):
     transition.boundary.plot(ax=ax, zorder=2, color='k', linewidth=0.6, ls="dashed")
     buffer.boundary.plot(ax=ax, zorder=2, color='#B5CF43', linewidth=0.6)
     core.boundary.plot(ax=ax, zorder=2, color='darkolivegreen', linewidth=0.6)   
-    np.boundary.plot(ax=ax, zorder=2, color='red', linewidth=0.6)
+    natp.boundary.plot(ax=ax, zorder=2, color='red', linewidth=0.6)
     show((hillshade2),ax=ax, cmap='Greys', zorder=1, alpha=.2)
     
     # BR legend
@@ -123,7 +110,7 @@ def brvis(year):
 
     corep = mlines.Line2D([],[],color='darkolivegreen', label='core zone')
 
-    dd = mlines.Line2D([],[],color='red', label='national park')
+    nationalpark = mlines.Line2D([],[],color='red', label='national park')
 
     be = mpatches.Patch(color='lightgrey', label='5km buffer BR')
 
@@ -137,7 +124,7 @@ def brvis(year):
     
     labelpatch = mpatches.Patch(color='white', label='(F = forest, NF = non-forest)')
 
-    ax.legend(handles=[yellow_patch, red_patch, green_patch, lightgreen_patch, transitionp, bufferp, corep, dd],
+    ax.legend(handles=[yellow_patch, red_patch, green_patch, lightgreen_patch, transitionp, bufferp, corep, nationalpark, be],
                 loc='upper center',
                 bbox_to_anchor=(0.9,0.25),
                 ncol=1,

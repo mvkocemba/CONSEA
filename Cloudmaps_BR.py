@@ -6,47 +6,25 @@ Created on Mon Feb 27 13:17:18 2023
 @author: michele
 """
 
+# load in all libraries
 import os
-import numpy as np
 import geopandas as gpd
-import pandas as pd
-import shapely.wkt
-import shapely.geometry
 import rasterio 
-
-
-import geopandas as gpd
-import earthpy.plot as ep
 import matplotlib.pyplot as plt
-import earthpy.spatial as es
-from osgeo import ogr, gdal
 from matplotlib import pyplot
 from matplotlib import colors
-
-from rasterio.plot import show, show_hist
-from matplotlib import cm
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-import matplotlib.patches as mpatches
-from matplotlib.patches import Rectangle
+from rasterio.plot import show
 import matplotlib.lines as mlines
 
 # set directories
-os.chdir('/home/michele/programming/python/data/CDAdistricts')
-inputdir = '/home/michele/programming/python/data/CDAdistricts'
-
+os.chdir('X')
+inputdir = 'X'
 
 ### load in vector data ###
-
-
 
 #boundary 5km buffer
 boundaryelgon = "boundaryelgon.shp"
 boundaryelgon = gpd.read_file(boundaryelgon)
-
-
-os.chdir('/home/michele/programming/python/data/cd_br')
-inputdir = '/home/michele/programming/python/data/cd_br/'
-
 
 # hillshade large
 hillshade2 = inputdir + "/anahillshade.tif"
@@ -69,12 +47,12 @@ cmap, norm = colors.from_levels_and_colors(levels, clrs, extend='max')
 
 def brvis(year):
     
-    clouddir = "/home/michele/programming/python/data/clouds/"
+    clouddir = "DEFINECLOUDDIR"
     
     cloud = clouddir + year + "_clouds.shp"
     cloud = gpd.read_file(cloud)
     
-    inputdir = "/home/michele/programming/python/data/cda2023/"
+    inputdir = "DEFINEINPUTDIR"
         
     p1 = inputdir + year + "ND.tif"
 
