@@ -8,10 +8,7 @@ Created on Thu Feb  9 13:33:49 2023
 
 
 import geopandas as gpd
-import pandas as pd
-import numpy as np
 import os
-
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 from matplotlib import colors
@@ -19,25 +16,16 @@ import rasterio
 import seaborn as sns
 from rasterio.plot import show
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
-
-
-# set directories
-os.chdir('/home/michele/programming/python/data/CDAdistricts')
-inputdir = '/home/michele/programming/python/data/CDAdistricts'
-
-from rasterio.plot import show, show_hist
-from matplotlib import cm
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import matplotlib.patches as mpatches
-from matplotlib.patches import Rectangle
 import matplotlib.lines as mlines
 
+# set directories
+os.chdir('X')
+inputdir = 'X'
 
 
 distlist = ["Bududa", "Bukwo", "Bulambuli", "Kapchorwa", "Kween", "Manafwa", "Mbale", "Namisindwa", "Sironko"]
 ans = []
-
-import matplotlib.pylab as pylab
 
 def periodvis(district):
     sns.set_theme()
@@ -142,7 +130,6 @@ def periodvis(district):
     axp5.set_ylim(ylim)
     
     axmm.tick_params(axis='both', which='major', labelsize=7)
-
     
     show((raster_p1), ax=axp1, title='1973-1987', cmap = cmap, norm=norm, interpolation = 'bilinear')
     show((raster_p2), ax=axp2, title='1987-1995', cmap = cmap, norm=norm, interpolation = 'bilinear')
@@ -273,6 +260,6 @@ def periodvis(district):
 for x in distlist:
     ans.append(periodvis(x))
     
-#show(ans)
+show(ans)
 
 

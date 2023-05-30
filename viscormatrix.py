@@ -10,15 +10,13 @@ Created on Thu Mar  2 10:13:29 2023
 import os
 import pandas as pd
 import scipy.stats
-from scipy.stats import spearmanr
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-from textwrap import wrap
 
-os.chdir('/home/michele/programming/python/tables')
+os.chdir('X')
 
-wd = '/home/michele/programming/python/tables'
+wd = 'X'
 
 data = wd + '/cdatrans.csv'
 
