@@ -17,8 +17,13 @@ from rasterio.plot import show
 import matplotlib.lines as mlines
 
 # set directories
+<<<<<<< HEAD:Cloudmaps_BR.py
 os.chdir('X')
 inputdir = 'X'
+=======
+os.chdir('/home/michele/programming/python/data/CDAdistricts')
+inputdir = '/home/michele/programming/python/data/CDAdistricts'
+>>>>>>> 7feb14e09eea7cc9e18c0c244f77e8a72dd7cf85:FINAL_CloudBRMAps_041623.py
 
 ### load in vector data ###
 
