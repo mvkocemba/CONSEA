@@ -15,7 +15,6 @@ Created on Mon Feb 27 13:17:18 2023
 """
 
 import geopandas as gpd
-import numpy as np
 import rasterio 
 import os
 
@@ -28,13 +27,15 @@ import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 
 # set directories
-os.chdir('X')
-inputdir = 'X'
+#os.chdir('/michele/Dokumente/harddrive/data/elgon/')
+#inputdir = '/michele/Dokumente/harddrive/data/elgon/'
 
 ### load in vector data ###
 # load BR data
-BR = "MtElgonBRUgandaOutline.shp"
-BR = gpd.read_file(BR)
+os.chdir('/home/michele/Dokumente/harddrive/data/elgon/shp/')
+
+#BR = "MtElgonBRUgandaOutline.shp"
+#BR = gpd.read_file(BR)
 
 #boundary 5km buffer
 boundaryelgon = "boundaryelgon.shp"
@@ -57,12 +58,12 @@ natp = "IUCNNationalparkboundary.shp"
 natp = gpd.read_file(natp)
 
 ### load other raster data ###
-# load hillshade
-hillshade = inputdir + "/hillshade.tif"
+os.chdir('/home/michele/Dokumente/harddrive/data/elgon/DEM/')
+hillshade = "hillshade.tif"
 hillshade = rasterio.open(hillshade)
 
 # hillshade large
-hillshade2 = inputdir + "/anahillshade.tif"
+hillshade2 = "anahillshade.tif"
 hillshade2 = rasterio.open(hillshade2)
 
 # creation of a custom colormap
@@ -80,9 +81,11 @@ ans = []
     
 
 def brvis(year):
-        
+    
+    os.chdir("/home/michele/Dokumente/harddrive/data/")
+    inputdir = "/home/michele/Dokumente/harddrive/data/elgon/CDA2023/"
     p1 = inputdir + year + ".tif"
-
+    
     raster_p1 = rasterio.open(p1)
     
     fig, ax = plt.subplots(figsize = (20,12))
@@ -93,26 +96,25 @@ def brvis(year):
     ax.set_box_aspect(1)
     # set labelsize
     ax.tick_params(axis='both', which='major', labelsize=7)
-    
+
     show((raster_p1), ax=ax,
-         #title='Forest cover development for '+ year,
-         cmap = cmap, norm=norm, interpolation = 'bilinear')
-    transition.boundary.plot(ax=ax, zorder=2, color='k', linewidth=0.6, ls="dashed")
-    buffer.boundary.plot(ax=ax, zorder=2, color='#B5CF43', linewidth=0.6)
-    core.boundary.plot(ax=ax, zorder=2, color='darkolivegreen', linewidth=0.6)   
-    natp.boundary.plot(ax=ax, zorder=2, color='red', linewidth=0.6)
+        #title='Forest cover development for '+ year,
+        cmap = cmap, norm=norm, interpolation = 'bilinear')
+    transition.boundary.plot(ax=ax, zorder=2, color='dimgrey', linewidth=0.6, ls="dashed")
+    #buffer.boundary.plot(ax=ax, zorder=2, color='darkslategrey', linewidth=0.6)
+    core.boundary.plot(ax=ax, zorder=2, color='black', linewidth=0.6)   
+    core.boundary.plot(ax=ax, zorder=2, color='black', linewidth=0.6, alpha=0.4, hatch="\\")   
+    natp.boundary.plot(ax=ax, zorder=2, color='maroon', linewidth=1)
     show((hillshade2),ax=ax, cmap='Greys', zorder=1, alpha=.2)
     
     # BR legend
-    transitionp = mlines.Line2D([],[],color='k', label='transition zone')
+    transitionp = mlines.Line2D([],[],color='dimgrey', alpha=0.6, label='transition zone')
 
-    bufferp =mlines.Line2D([],[],color='#B5CF43', label='buffer zone')
+    bufferp =mlines.Line2D([],[],color='grey', label='buffer zone')
 
-    corep = mlines.Line2D([],[],color='darkolivegreen', label='core zone')
+    corep = mlines.Line2D([],[],color='black', label='core zone')
 
-    nationalpark = mlines.Line2D([],[],color='red', label='national park')
-
-    be = mpatches.Patch(color='lightgrey', label='5km buffer BR')
+    nationalpark = mlines.Line2D([],[],color='maroon', label='national park')
 
     yellow_patch = mpatches.Patch(color='#eed5b7', label='NF >> NF')
     
@@ -122,9 +124,7 @@ def brvis(year):
     
     lightgreen_patch = mpatches.Patch(color='darkolivegreen', label='F >> F')
     
-    labelpatch = mpatches.Patch(color='white', label='(F = forest, NF = non-forest)')
-
-    ax.legend(handles=[yellow_patch, red_patch, green_patch, lightgreen_patch, transitionp, bufferp, corep, nationalpark, be],
+    ax.legend(handles=[yellow_patch, red_patch, green_patch, lightgreen_patch, transitionp, bufferp, corep, nationalpark],
                 loc='upper center',
                 bbox_to_anchor=(0.9,0.25),
                 ncol=1,
@@ -134,10 +134,10 @@ def brvis(year):
     # insert scalebar
     scalebar = AnchoredSizeBar(ax.transData,
                                25000, '25km', 'upper left',
-                               pad=1,
+                               pad=2,
                                color='black',
                                frameon=False,
-                               size_vertical=1)
+                               size_vertical=2)
     
     ax.add_artist(scalebar)
     # export to current working directory
@@ -153,3 +153,4 @@ for x in yearlist:
     ans.append(brvis(x))
     
 show(ans)
+
