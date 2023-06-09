@@ -101,10 +101,13 @@ def brvis(year):
         #title='Forest cover development for '+ year,
         cmap = cmap, norm=norm, interpolation = 'bilinear')
     transition.boundary.plot(ax=ax, zorder=2, color='dimgrey', linewidth=0.6, ls="dashed")
+    # i will take the boundary data out of the plot because its invisible anyway
     #buffer.boundary.plot(ax=ax, zorder=2, color='darkslategrey', linewidth=0.6)
     core.boundary.plot(ax=ax, zorder=2, color='black', linewidth=0.6)   
     core.boundary.plot(ax=ax, zorder=2, color='black', linewidth=0.6, alpha=0.4, hatch="\\")   
     natp.boundary.plot(ax=ax, zorder=2, color='maroon', linewidth=1)
+    
+    # hillshade added
     show((hillshade2),ax=ax, cmap='Greys', zorder=1, alpha=.2)
     
     # BR legend
@@ -141,7 +144,7 @@ def brvis(year):
     
     ax.add_artist(scalebar)
     # export to current working directory
-    plt.savefig("testFCdev_BR_"+year+".png",
+    plt.savefig("FCdev_BR_"+year+".png",
                 dpi = 500,
                 # specifying tight here so that legend is not cut
                 bbox_inches= "tight")
